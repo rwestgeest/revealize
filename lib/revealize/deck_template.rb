@@ -8,7 +8,7 @@ module Revealize
 
   class EmptyTemplate
     def render(context)
-      context.slides
+      context.render_slides
     end
   end
 end

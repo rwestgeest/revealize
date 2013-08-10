@@ -3,13 +3,12 @@ require 'spec_helper'
 require 'revealize'
 
 module Revealize
-
   describe "integration" do
-    include FileUtils
+    include Files
     before(:all) do
-      mkdir_p "spec/fixtures/root/slide_decks"
-      mkdir_p "spec/fixtures/root/slides"
-      mkdir_p "spec/fixtures/root/layouts"
+      mkdir_p "spec/fixtures/root/_slide_decks"
+      mkdir_p "spec/fixtures/root/_slides"
+      mkdir_p "spec/fixtures/root/_layouts"
     end
 
     after(:all) do
@@ -17,23 +16,23 @@ module Revealize
     end
 
     it "renders a list of slides" do
-      a_file("spec/fixtures/root/slide_decks/deck_1.deck") do 
+      a_file("spec/fixtures/root/_slide_decks/deck_1.deck") do 
         %Q{layout 'qwan'
            slide 'slide_1'
            slide 'slide_2'}
       end
-      a_file("spec/fixtures/root/slides/slide_1.haml") do
+      a_file("spec/fixtures/root/_slides/slide_1.haml") do
         haml_content %Q{%section
                             ..%h2 slide 1}
       end
-      a_file("spec/fixtures/root/slides/slide_2.haml") do
+      a_file("spec/fixtures/root/_slides/slide_2.haml") do
         haml_content %Q{%section
                             ..%h2 slide 2}
       end
-      a_file("spec/fixtures/root/layouts/qwan.haml") do 
+      a_file("spec/fixtures/root/_layouts/qwan.haml") do 
         haml_content %q{%html
                             ..%body
-                            ....= slides}
+                            ....= render_slides}
       end
       deck_1 = FileSystemStore.new('spec/fixtures/root').read_deck('deck_1')
       deck_1.render.should == Haml::Engine.new(haml_content %Q{%html
@@ -45,21 +44,6 @@ module Revealize
     end
 
 
-    def a_file(filepath, &block)
-      file_writer = FileWriter.new(filepath)
-      file_writer.with_content(yield) if block_given?
-      file_writer
-    end
-
-    def haml_content(content)
-      content.gsub(/^ */,'').gsub('.',' ')
-    end
-
-    class FileWriter < Struct.new(:filepath)
-      def with_content(content)
-        File.open(filepath, "w+") { |f| f.write(content) }
-      end
-    end
 
   end
 end

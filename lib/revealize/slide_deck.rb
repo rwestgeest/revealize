@@ -2,6 +2,7 @@ require 'revealize/file_system_store'
 
 module Revealize
   class SlideDeck
+    attr_reader :slides
     def initialize(template)
       @slides = []
       @template = template
@@ -15,7 +16,7 @@ module Revealize
       @template.render(self)
     end
 
-    def slides
+    def render_slides
       @slides.map { |slide| slide.render }.join()
     end
   end

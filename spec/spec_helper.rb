@@ -1,4 +1,5 @@
 $: << 'lib'
+Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each {|f| require f}
 Rspec.configure do |config|
   config.filter_run_excluding :broken => true
   config.filter_run :focus => true

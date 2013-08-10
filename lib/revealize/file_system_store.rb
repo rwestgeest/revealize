@@ -4,7 +4,18 @@ require 'revealize/slide_deck'
 require 'revealize/slide'
 
 module Revealize
-  class FileSystemStore < Struct.new(:root_path)
+  class SlideError < Exception
+    def self.does_no_exist(slide_name)
+      self.new("Slide #{slide_name} does not exist")
+    end
+  end
+  class FileSystemStore 
+    attr_reader :root_path, :deck
+
+    def initialize(root_path, slide_deck=nil)
+      @root_path = root_path
+      @deck = slide_deck
+    end
 
     def read_deck(deck_name)
       SlideDeckDsl.new(self).instance_eval(deck_file(deck_name))
@@ -16,21 +27,28 @@ module Revealize
     end
 
     def read_slide(slide_name)
-      @deck.add_slide(Slide.new(slide_file(slide_name)))
+      @deck.add_slide(create_slide(slide_name))
     end
 
     private
 
     def deck_file(deck_name)
-      File.read(File.join(root_path, 'slide_decks', deck_name + '.deck'))
+      File.read(File.join(root_path, '_slide_decks', deck_name + '.deck'))
     end
 
     def layout_file(layout_name)
-      File.read(File.join(root_path, 'layouts', layout_name + '.haml'))
+      File.read(File.join(root_path, '_layouts', layout_name + '.haml'))
     end
 
-    def slide_file(slide_name)
-      File.read(File.join(root_path, 'slides', slide_name + '.haml'))
+    def create_slide(slide_name)
+      file_name = Dir[File.join(root_path, '_slides', slide_name + '.*')].first
+      raise SlideError.does_no_exist(slide_name) unless file_name
+      if File.extname(file_name) == '.md'
+        MarkdownSlide.new(File.read(file_name))
+      else
+        HamlSlide.new(File.read(file_name))
+      end
+
     end
   end
 end
