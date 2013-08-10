@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+$: << 'lib'
+require 'revealize/commands'
+
+Revealize::Commands.start

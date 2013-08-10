@@ -1,5 +1,2 @@
 require "revealize/version"
-
-module Revealize
-  # Your code goes here...
-end
+require "revealize/slide_deck"
