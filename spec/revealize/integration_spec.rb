@@ -19,8 +19,8 @@ module Revealize
     it "renders a list of slides" do
       a_file("spec/fixtures/root/slide_decks/deck_1.deck") do 
         %Q{layout 'qwan'
-               slide 'slide_1'
-               slide 'slide_2'}
+           slide 'slide_1'
+           slide 'slide_2'}
       end
       a_file("spec/fixtures/root/slides/slide_1.haml") do
         haml_content %Q{%section

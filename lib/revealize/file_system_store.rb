@@ -1,14 +1,16 @@
 require 'revealize/deck_template'
 require 'revealize/slide_deck_dsl'
+require 'revealize/slide_deck'
 require 'revealize/slide'
 
 module Revealize
   class FileSystemStore < Struct.new(:root_path)
-    attr_reader :deck
+
     def read_deck(deck_name)
       SlideDeckDsl.new(self).instance_eval(deck_file(deck_name))
-      deck
+      @deck
     end
+
     def read_layout(layout_name)
       @deck = SlideDeck.new(DeckTemplate.new(layout_file(layout_name)))
     end

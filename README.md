@@ -1,6 +1,17 @@
 # Revealize
 
-TODO: Write a gem description
+Creates serves and compiles slide decks using reveal js markdown and
+haml
+
+In my company we use one repository for all training slide decks. In the
+process of migrating from OpenOffice to revealjs I needed something that
+allowed me to 
+
+* manage several slide decks (for different presentations) using one
+pile of slides
+* use different templates for the decks
+* write slides in haml or markdown
+* use revealjs as slideshow engine
 
 ## Installation
 
@@ -18,7 +29,35 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+revealize new dirname
+```
+
+Go in the directory and you will findd
+
+creates an environment with the following directories
+
+* slide_decks for slide decks
+* slides for slides
+* layouts containing layouts
+* images for images
+* reveal
+* css
+* javascripts
+* presentations
+
+and a sample slide_deck called presentation.deck in slide_decks
+
+To start the server
+
+```bash
+revealize server
+```
+
+You might want to use rerun to make sure the server reruns when a file
+changes
+
+open a browser and type localhost:8080 to view the sameple presentation
 
 ## Contributing
 
