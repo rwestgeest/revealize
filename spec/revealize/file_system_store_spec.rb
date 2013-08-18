@@ -20,8 +20,8 @@ module Revealize
 
       context 'with deck files' do
         it "contains a deck list" do
-          a_file('spec/fixtures/root/_slide_decks/first_deck.deck').with_content "" 
-          a_file('spec/fixtures/root/_slide_decks/second_deck.deck').with_content "" 
+          a_file("spec/fixtures/root/#{FileSystemStore::SLIDE_DECKS_DIR}/first_deck.deck").with_content "" 
+          a_file("spec/fixtures/root/#{FileSystemStore::SLIDE_DECKS_DIR}/second_deck.deck").with_content "" 
           file_system_store.decks.should == DeckList.new('first_deck',
                                                          'second_deck')
         end
@@ -39,7 +39,7 @@ module Revealize
       end
 
       context "when slide is a haml file" do
-        before { a_file('spec/fixtures/root/_slides/the_slide.haml').with_content "%section" }
+        before { a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/the_slide.haml").with_content "%section" }
 
         it "creates a HamlSlide" do
           file_system_store.read_slide('the_slide')
@@ -49,7 +49,7 @@ module Revealize
       end
 
       context "when slide is a markdown file" do
-        before { a_file('spec/fixtures/root/_slides/the_slide.md').with_content "# title" }
+        before { a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/the_slide.md").with_content "# title" }
 
         it "creates a MarkdownSlide" do
           file_system_store.read_slide('the_slide')
@@ -58,8 +58,8 @@ module Revealize
       end
 
       context "when slide is both a markdown and a haml file" do
-        before { a_file('spec/fixtures/root/_slides/the_slide.haml').with_content "%section" }
-        before { a_file('spec/fixtures/root/_slides/the_slide.md').with_content "# title" }
+        before { a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/the_slide.haml").with_content "%section" }
+        before { a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/the_slide.md").with_content "# title" }
 
         it "prefers the haml one" do
           file_system_store.read_slide('the_slide')

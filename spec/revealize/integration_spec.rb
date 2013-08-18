@@ -7,10 +7,10 @@ module Revealize
   describe "integration" do
     include Files
     before(:all) do
-      mkdir_p "spec/fixtures/root/_slide_decks"
-      mkdir_p "spec/fixtures/root/_slides"
-      mkdir_p "spec/fixtures/root/_layouts"
-      a_file("spec/fixtures/root/_slide_decks/deck_1.deck") do 
+      mkdir_p "spec/fixtures/root/#{FileSystemStore::SLIDE_DECKS_DIR}"
+      mkdir_p "spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}"
+      mkdir_p "spec/fixtures/root/#{FileSystemStore::LAYOUTS_DIR}"
+      a_file("spec/fixtures/root/#{FileSystemStore::SLIDE_DECKS_DIR}/deck_1.deck") do 
         %Q{layout 'qwan'
            slide 'slide_1'
            slide 'slide_2'}
@@ -23,15 +23,15 @@ module Revealize
 
     describe 'reading a deck' do
       it "renders a list of slides" do
-        a_file("spec/fixtures/root/_slides/slide_1.haml") do
+        a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/slide_1.haml") do
           haml_content %Q{%section
                             ..%h2 slide 1}
         end
-        a_file("spec/fixtures/root/_slides/slide_2.haml") do
+        a_file("spec/fixtures/root/#{FileSystemStore::SLIDES_DIR}/slide_2.haml") do
           haml_content %Q{%section
                             ..%h2 slide 2}
         end
-        a_file("spec/fixtures/root/_layouts/qwan.haml") do 
+        a_file("spec/fixtures/root/#{FileSystemStore::LAYOUTS_DIR}/qwan.haml") do 
           haml_content %q{%html
                             ..%body
                             ....= render_slides}
@@ -50,15 +50,15 @@ module Revealize
       context "without decks" do
         it 'renders a list of links to a deck' do
           decks = FileSystemStore.new('spec/fixtures/root').decks
-          Capybara.string(decks.render).should_not have_selector("a[href='/_slide_decks/deck_1']")
+          Capybara.string(decks.render).should_not have_selector("a[href='/#{FileSystemStore::SLIDE_DECKS_DIR}/deck_1']")
         end
       end
 
       context "with decks" do
         it 'renders a list of links to a deck' do
-          a_file("spec/fixtures/root/_slide_decks/deck_1.deck").with_content ""
+          a_file("spec/fixtures/root/#{FileSystemStore::SLIDE_DECKS_DIR}/deck_1.deck").with_content ""
           decks = FileSystemStore.new('spec/fixtures/root').decks
-          Capybara.string(decks.render).should_not have_selector("a[href='/_slide_decks/deck_1']")
+          Capybara.string(decks.render).should_not have_selector("a[href='/#{FileSystemStore::SLIDE_DECKS_DIR}/deck_1']")
         end
       end
     end

@@ -29,11 +29,14 @@ Or install it yourself as:
 
 ## Usage
 
+This gem is very much work in progress. 
+ 
+TODO
 ```bash
 revealize new dirname
 ```
 
-Go in the directory and you will findd
+Go in the directory and you will find
 
 creates an environment with the following directories
 

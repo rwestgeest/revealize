@@ -13,6 +13,10 @@ module Revealize
 
 
   class FileSystemStore 
+    SLIDE_DECKS_DIR='slide_decks'
+    SLIDES_DIR='slides'
+    LAYOUTS_DIR='layouts'
+    
     attr_reader :root_path, :deck
 
     def initialize(root_path, slide_deck=nil)
@@ -40,19 +44,19 @@ module Revealize
     private
 
     def deck_file(deck_name)
-      File.read(File.join(root_path, '_slide_decks', deck_name + '.deck'))
+      File.read(File.join(root_path, SLIDE_DECKS_DIR, deck_name + '.deck'))
     end
 
     def layout_file(layout_name)
-      File.read(File.join(root_path, '_layouts', layout_name + '.haml'))
+      File.read(File.join(root_path, LAYOUTS_DIR, layout_name + '.haml'))
     end
 
     def deck_names
-      Dir[File.join(root_path, '_slide_decks', '*.deck') ].map {|f| File.basename(f,'.deck')}
+      Dir[File.join(root_path, SLIDE_DECKS_DIR, '*.deck') ].map {|f| File.basename(f,'.deck')}
     end
 
     def create_slide(slide_name)
-      file_name = Dir[File.join(root_path, '_slides', slide_name + '.*')].first
+      file_name = Dir[File.join(root_path, SLIDES_DIR, slide_name + '.*')].first
       raise SlideError.does_no_exist(slide_name) unless file_name
       if File.extname(file_name) == '.md'
         MarkdownSlide.new(File.read(file_name))
