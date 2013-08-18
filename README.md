@@ -32,24 +32,6 @@ Or install it yourself as:
 This gem is very much work in progress. 
  
 TODO
-```bash
-revealize new dirname
-```
-
-Go in the directory and you will find
-
-creates an environment with the following directories
-
-* slide_decks for slide decks
-* slides for slides
-* layouts containing layouts
-* images for images
-* reveal
-* css
-* javascripts
-* presentations
-
-and a sample slide_deck called presentation.deck in slide_decks
 
 To start the server
 
