@@ -6,9 +6,30 @@ module Revealize
     include Files
     after(:each) { rm_r 'spec/fixtures/root' if File.exists? 'spec/fixtures/root' }
 
+    let(:file_system_store) { FileSystemStore.new('spec/fixtures/root', deck) }
+
+    describe "#decks" do
+      let(:deck) { nil }
+
+      context 'without deck files' do
+        it "contains an emtpy deck lisy" do
+          file_system_store.decks.should == DeckList.new
+
+        end
+      end
+
+      context 'with deck files' do
+        it "contains a deck list" do
+          a_file('spec/fixtures/root/_slide_decks/first_deck.deck').with_content "" 
+          a_file('spec/fixtures/root/_slide_decks/second_deck.deck').with_content "" 
+          file_system_store.decks.should == DeckList.new('first_deck',
+                                                         'second_deck')
+        end
+      end
+    end
+
     describe "read a slide" do
       let(:deck)  { SlideDeck.new(EmptyTemplate.new) }
-      let(:file_system_store) { FileSystemStore.new('spec/fixtures/root', deck) }
       let(:slides) { deck.slides }
 
       context "when slide does not exist" do

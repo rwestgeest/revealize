@@ -25,6 +25,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rerun"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "capybara"
   spec.add_dependency "thor"
   spec.add_dependency "sinatra"
   spec.add_dependency "haml"

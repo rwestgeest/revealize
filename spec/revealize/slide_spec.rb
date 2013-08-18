@@ -7,6 +7,7 @@ module Revealize
       Haml::Engine.new(content).render
     end
   end
+
   describe HamlSlide do
     include HamlHelper
     describe "#render" do
@@ -15,6 +16,7 @@ module Revealize
       end
     end
   end
+
   describe MarkdownSlide do
     include HamlHelper
     describe "#render" do
